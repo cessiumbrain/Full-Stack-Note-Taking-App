@@ -1,17 +1,22 @@
+//React---------->
 import { Component } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+//firebase---------->
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut } from "firebase/auth";
 
+//other imports---------->
+import axios from 'axios';
 
+//components---------->
 import Login from './LoginComponent';
 import CreateAccount from './CreateAccountComponent';
 import Home from './HomeComponent.js'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav } from 'reactstrap';
 
+//firebase config---------->
 const firebaseConfig = {
   apiKey: "AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4",
   authDomain: "note-taking-app-b.firebaseapp.com",
@@ -36,19 +41,24 @@ class App extends Component {
     }
   }
 
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-
-    firebaseCreateAccount = (email, password)=>{
-      console.log(email, password)
+  createNewUser = ()=>{
+    axios({
+      method: 'post',
+      body: 'hello',
+      url: `http://localhost:5000/${this.state.currentUser}/notebooks`
+    })
+  }
+  firebaseCreateAccount = (email, password)=>{
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+
           // Signed in 
           const user = userCredential.user;
+          console.log(user.uid)
           this.setState({
             currentUser : user.uid
-          }, ()=>console.log(this.state.currentUser))
-
+          })
+          //create new user in database
         // ...
         })
         .catch((error) => {
@@ -58,27 +68,55 @@ class App extends Component {
         // ..
       });
     }
+    firebaseLogin = (email, password)=>{
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user)
+          this.setState({
+            currentUser: user.uid
+          }, ()=>{console.log(this.state.currentUser)})
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    }
+    firebaseSignout = ()=>{
+      signOut(auth).then(() => {
+        this.setState({
+          currentUser: null
+        }, ()=>{console.log(this.state.currentUser)})
+      }).catch((error) => {
+        console.log(error)
+        // An error happened.
+      });
+    }
 
 
   render(){
   
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     return (
       <div className="App">
        
         <BrowserRouter>
                 <Routes>         
-                  <Route path='/' element={
+                  <Route path='/login' element={
                     <Login
-                      currentUser={this.state.currentUser}></Login>}/>
+                      firebaseLogin={this.firebaseLogin}
+                      currentUser={this.state.currentUser}/>}/>
                   <Route 
-                    path='/createaccount' 
+                    path='/create-account' 
                     element={
                       <CreateAccount
                         currentUser={this.state.currentUser}
                         firebaseCreateAccount={this.firebaseCreateAccount}/>}/>
-                  <Route path='/home' element={<Home></Home>}/>
+                  <Route path='/home' element={
+                    <Home
+                      currentUser={this.state.currentUser}
+                      firebaseSignout={this.firebaseSignout}/>}/>
                 </Routes>
 
               
@@ -86,6 +124,7 @@ class App extends Component {
 
         </BrowserRouter>
         <h1>App</h1>
+        <button onClick={()=>{this.createNewUser()}}>test</button>
       </div>
     )
   }
