@@ -1,0 +1,25 @@
+body{
+    margin: 0px;
+}
+
+.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(90deg, rgba(239,145,55,1) 0%, rgba(252,213,120,1) 100%);
+    margin: 0;
+}
+
+.login-div {
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+
+    .btn {
+        margin-top: 5px;
+        background-color: #fc9f6d;
+        border: 1px solid white;
+
+    }
+}
