@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser= require('body-parser')
 
+const firebase = require('firebase')
+
 const app = express()
 const port = 5000
 
@@ -48,6 +50,8 @@ const createUser = async(userId)=>{
 }
 
 //routes
+//create new user
 app.post('/:uid/notebooks', (req, res)=>{
     createUser(req.params.uid)
 })
+//create new notebook

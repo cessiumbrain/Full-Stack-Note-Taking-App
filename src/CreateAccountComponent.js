@@ -10,9 +10,7 @@ const CreateAccount = (props)=>{
     const [reenterPassword, setReenterPassword] = useState('')
     const navigate = useNavigate()
 
-    console.log(props)
     if(props.currentUser){
-        console.log('currentUser')
         navigate('/home', { replace: true })
     }
 

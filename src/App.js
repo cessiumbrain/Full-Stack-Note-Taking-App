@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut } from "firebase/auth";
+import {getFirestore, collection, addDoc} from'firebase/firestore';
 
 //other imports---------->
 import axios from 'axios';
@@ -31,6 +32,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
+const db= getFirestore(app)
+const usersCollection = collection(db, 'Users')
 
 class App extends Component {
   constructor(props){
@@ -40,13 +43,29 @@ class App extends Component {
       
     }
   }
+  getUsers=async ()=>{
 
-  createNewUser = ()=>{
+    
+    console.log(usersCollection)
+
+  }
+  createNotebook=()=>{
     axios({
       method: 'post',
-      body: 'hello',
-      url: `http://localhost:5000/${this.state.currentUser}/notebooks`
+      url: 'http:'
     })
+  }
+  createNewUser = async ()=>{
+    try {
+      const docRef = await addDoc(collection(db, "Users"), {
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
   firebaseCreateAccount = (email, password)=>{
       createUserWithEmailAndPassword(auth, email, password)
@@ -59,6 +78,7 @@ class App extends Component {
             currentUser : user.uid
           })
           //create new user in database
+          this.createNewUser()
         // ...
         })
         .catch((error) => {
@@ -67,8 +87,8 @@ class App extends Component {
           console.log(errorMessage)
         // ..
       });
-    }
-    firebaseLogin = (email, password)=>{
+  }
+  firebaseLogin = (email, password)=>{
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in 
@@ -83,8 +103,8 @@ class App extends Component {
           const errorCode = error.code;
           const errorMessage = error.message;
         });
-    }
-    firebaseSignout = ()=>{
+  }
+  firebaseSignout = ()=>{
       signOut(auth).then(() => {
         this.setState({
           currentUser: null
@@ -93,8 +113,7 @@ class App extends Component {
         console.log(error)
         // An error happened.
       });
-    }
-
+  }
 
   render(){
   
