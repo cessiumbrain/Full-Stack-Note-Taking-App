@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut } from "firebase/auth";
 import {getFirestore, collection, addDoc, setDoc, doc, getDocs} from'firebase/firestore';
+import firebaseConfig from './firebaseConfig';
 
 //other imports---------->
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,16 +20,6 @@ import Home from './HomeComponent.js'
 
 import { Nav } from 'reactstrap';
 
-//firebase config---------->
-const firebaseConfig = {
-  apiKey: "AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4",
-  authDomain: "note-taking-app-b.firebaseapp.com",
-  projectId: "note-taking-app-b",
-  storageBucket: "note-taking-app-b.appspot.com",
-  messagingSenderId: "12758433387",
-  appId: "1:12758433387:web:8425c9dbe23aa5da47bb2e",
-  measurementId: "G-FXSN9FZ76Q"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -41,7 +32,11 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      //currentUser: number
+      /*currentUser: number
+      notebooks: [
+        {}
+      ]
+      */
       currentNotebook: {}
       
     }
@@ -54,7 +49,9 @@ class App extends Component {
       const currentUser = users.find(user=>{
         return user.id === this.state.currentUser
       })   
-      console.log(currentUser)
+      this.setState({
+        notebooks: currentUser.notebooks
+      }, ()=>{console.log(this.state.notebooks)})
     }
   
 
@@ -108,7 +105,7 @@ class App extends Component {
           //set the current user state as the firebase user id
             this.setState({
               currentUser: user.uid
-            })
+            }, ()=>{this.getUserData()})
           // ...
         })
         .catch((error) => {
@@ -154,7 +151,6 @@ class App extends Component {
             
 
         </BrowserRouter>
-        <h1>App</h1>
         <button onClick={()=>{this.getUserData()}}>test</button>
       </div>
     )

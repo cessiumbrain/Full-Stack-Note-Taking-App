@@ -1,8 +1,9 @@
 $primary-color: #fc9f6d;
 $secondary-color: white;
 $tertiary-color: #fde073;
+$main-font: 'Roboto';
 
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 @mixin custom-buttons() {
     .btn {
         margin-top: 5px;
@@ -18,8 +19,12 @@ $tertiary-color: #fde073;
     }
 }
 
+:root{
+    
+}
 body{
     margin: 0px;
+    font-family: $main-font !important;
 }
 
 .App {
@@ -45,7 +50,10 @@ body{
 }
 
 .home-div {
-    .btn {
-        background-color: $primary-color;
-    }
+    min-width: 80%;
+    background-color: rgba(0,0,0,.1);
+    filter: drop-shadow(30px 30px 4px rgba(0,0,0,0.2));
+    padding: 10px;
+    border-radius: 5px;
+
 }
