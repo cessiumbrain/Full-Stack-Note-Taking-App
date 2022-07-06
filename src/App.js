@@ -5,16 +5,18 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut } from "firebase/auth";
-import {getFirestore, collection, addDoc} from'firebase/firestore';
+import {getFirestore, collection, addDoc, setDoc, doc, getDocs} from'firebase/firestore';
 
 //other imports---------->
-import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css'
+
 
 //components---------->
 import Login from './LoginComponent';
 import CreateAccount from './CreateAccountComponent';
 import Home from './HomeComponent.js'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { Nav } from 'reactstrap';
 
 //firebase config---------->
@@ -39,21 +41,26 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state={
+      //currentUser: number
       currentNotebook: {}
       
     }
   }
-  getUsers=async ()=>{
+  getUserData=async ()=>{
+    const snapshot = await getDocs(usersCollection)
+      const users = snapshot.docs.map(doc=>{
+        return doc.data()
+      })
+      const currentUser = users.find(user=>{
+        return user.id === this.state.currentUser
+      })   
+      console.log(currentUser)
+    }
+  
 
-    
-    console.log(usersCollection)
-
-  }
-  createNotebook=()=>{
-    axios({
-      method: 'post',
-      url: 'http:'
-    })
+  createNotebook= async ()=>{
+    const docs = await getDocs(usersCollection)
+    console.log(docs)
   }
   createNewUser = async ()=>{
     try {
@@ -70,15 +77,19 @@ class App extends Component {
   firebaseCreateAccount = (email, password)=>{
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-
           // Signed in 
           const user = userCredential.user;
           console.log(user.uid)
           this.setState({
             currentUser : user.uid
+          }, //callback to create user document in firestore db
+          async ()=>{
+            const docRef = await addDoc(collection(db, "Users"), {
+              id: user.uid,
+              email: user.email
+            });
+            console.log(`document created ${docRef}`);
           })
-          //create new user in database
-          this.createNewUser()
         // ...
         })
         .catch((error) => {
@@ -90,13 +101,14 @@ class App extends Component {
   }
   firebaseLogin = (email, password)=>{
       signInWithEmailAndPassword(auth, email, password)
+        //if sign in works...
         .then((userCredential) => {
-          // Signed in 
           const user = userCredential.user;
           console.log(user)
-          this.setState({
-            currentUser: user.uid
-          }, ()=>{console.log(this.state.currentUser)})
+          //set the current user state as the firebase user id
+            this.setState({
+              currentUser: user.uid
+            })
           // ...
         })
         .catch((error) => {
@@ -132,7 +144,7 @@ class App extends Component {
                       <CreateAccount
                         currentUser={this.state.currentUser}
                         firebaseCreateAccount={this.firebaseCreateAccount}/>}/>
-                  <Route path='/home' element={
+                  <Route path='/home' index element={
                     <Home
                       currentUser={this.state.currentUser}
                       firebaseSignout={this.firebaseSignout}/>}/>
@@ -143,7 +155,7 @@ class App extends Component {
 
         </BrowserRouter>
         <h1>App</h1>
-        <button onClick={()=>{this.createNewUser()}}>test</button>
+        <button onClick={()=>{this.getUserData()}}>test</button>
       </div>
     )
   }

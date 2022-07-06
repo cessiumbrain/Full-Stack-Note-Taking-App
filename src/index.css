@@ -4,6 +4,7 @@ body {
 
 .App {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -19,5 +20,18 @@ body {
 .login-div .btn {
   margin-top: 5px;
   background-color: #fc9f6d;
-  border: 1px solid white;
+  border: 2px solid white;
+  width: 100%;
+}
+.login-div .btn:hover {
+  background-color: white;
+  color: #fc9f6d;
+  border: 2px solid #fc9f6d;
+}
+.login-div a {
+  width: 100%;
+}
+
+.home-div .btn {
+  background-color: #fc9f6d;
 }/*# sourceMappingURL=index.css.map */

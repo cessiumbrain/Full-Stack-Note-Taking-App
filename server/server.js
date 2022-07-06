@@ -3,7 +3,16 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const bodyParser= require('body-parser')
 
-const firebase = require('firebase')
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://note-taking-app:note-taking-app@cluster0.gqxzofl.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  console.log(collection.s.db)
+  
+  client.close();
+});
 
 const app = express()
 const port = 5000
