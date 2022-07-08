@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 import Notebooks from './NotebooksComponent'
 
 const Home = (props)=>{
+
     const navigate = useNavigate()
     //if there's no current user navigate back to login
     useEffect(()=>{
@@ -15,8 +16,12 @@ const Home = (props)=>{
    
     return(
         <div className="home-div">
-            <h1>home</h1>
-            <Notebooks></Notebooks>
+            <div className='secondary-home-div'>
+                <Notebooks
+                    notebooks={props.notebooks}
+                />    
+            </div>
+            
             <Button onClick={()=>{props.firebaseSignout()}}>Sign Out</Button>
         </div>
     )

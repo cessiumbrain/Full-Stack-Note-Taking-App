@@ -19,9 +19,7 @@ $main-font: 'Roboto';
     }
 }
 
-:root{
-    
-}
+
 body{
     margin: 0px;
     font-family: $main-font !important;
@@ -49,11 +47,18 @@ body{
     }
 }
 
-.home-div {
+.secondary-home-div {
+    display: flex;
     min-width: 80%;
     background-color: rgba(0,0,0,.1);
     filter: drop-shadow(30px 30px 4px rgba(0,0,0,0.2));
     padding: 10px;
     border-radius: 5px;
 
+
+}
+
+.notebooks-div {
+
+    @include custom-buttons()
 }

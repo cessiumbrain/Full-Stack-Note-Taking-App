@@ -34,10 +34,23 @@ body {
   width: 100%;
 }
 
-.home-div {
+.secondary-home-div {
+  display: flex;
   min-width: 80%;
   background-color: rgba(0, 0, 0, 0.1);
   filter: drop-shadow(30px 30px 4px rgba(0, 0, 0, 0.2));
   padding: 10px;
   border-radius: 5px;
+}
+
+.notebooks-div .btn {
+  margin-top: 5px;
+  background-color: #fc9f6d;
+  border: 2px solid white;
+  width: 100%;
+}
+.notebooks-div .btn:hover {
+  background-color: white;
+  color: #fc9f6d;
+  border: 2px solid #fc9f6d;
 }/*# sourceMappingURL=index.css.map */
