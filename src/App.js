@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut } from "firebase/auth";
-import {getFirestore, collection, addDoc, setDoc, doc, getDocs, getDoc, query, where} from'firebase/firestore';
+import {getFirestore, collection, addDoc, setDoc, doc, getDocs, updateDoc, getDoc, query, where} from'firebase/firestore';
 import firebaseConfig from './firebaseConfig';
 
 //other imports---------->
@@ -37,6 +37,7 @@ class App extends Component {
         id:...
         email...
         notebooks:
+        userDocId: ...
       }
       selectedNotebook: 
         {}
@@ -47,6 +48,7 @@ class App extends Component {
     }
   }
   getUserData=async ()=>{
+    console.log(this.state.currentUser.authId)
     const q = await query(usersCollection, where('authId', '==', this.state.currentUser.authId));
     console.log(q)
     const querySnapshot = await getDocs(q)
@@ -59,32 +61,38 @@ class App extends Component {
         documentId : currentUserDocumentId,
         currentUserEmail : currentUserData.email
       }
-      
-
     }, ()=>console.log(this.state))
-
-    
-    
-    // getDoc(q).then(document=>{console.log(document)})
-    
-
   }
   
 
-  createNotebook= async ()=>{
-    const docs = await getDocs(usersCollection)
-    console.log(docs)
+  createNotebook= async (title)=>{
+    const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
+    const currentDoc = await (await getDoc(docRef)).data();
+    const newDoc = {
+      ...currentDoc,
+      notebooks: currentDoc.notebooks.concat({
+        title: title,
+        notes: [
+
+        ]
+      })
+    }
+    await setDoc(docRef, newDoc)
+    //update state to include new notebook
+    const updatedDoc = await (await getDoc(docRef)).data()
+    console.log(updatedDoc)
+    this.setState({
+      ...this.state,
+      currentUser: { 
+        ...this.state.currentUser,
+        notebooks: [ ...updatedDoc.notebooks]
+      
+      },
+
+    })
+    
   }
-  // createNewUser = async ()=>{
-  //   try {
-  //     const docRef = await addDoc(collection(db, "Users"), {
-  //       userId: this.state.currentUser
-  //     });
-  //     console.log("Document written with ID: ", docRef.id);
-  //   } catch (e) {
-  //     console.error("Error adding document: ", e);
-  //   }
-  // }
+
   firebaseCreateAccount = (email, password)=>{
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -119,24 +127,25 @@ class App extends Component {
         // ..
       });
   }
+
   firebaseLogin = (email, password)=>{
       signInWithEmailAndPassword(auth, email, password)
         //if sign in works...
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user)
           //set the current user state as the firebase user id
             this.setState({
               currentUser: {
                 ...this.state.currentUser,
                 authId: user.uid
               }
-            }, ()=>{
-              console.log(this.state)
-            })
-            //then get set the user's data in state
-            // ()=>{this.getUserData()})
-          // ...
+            },
+            //callback to query user's data from firestore
+            ()=>{
+              this.getUserData()
+            }
+            )
+            
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -175,7 +184,7 @@ class App extends Component {
                     <Home
                       currentUser={this.state.currentUser}
                       firebaseSignout={this.firebaseSignout}
-                      notebooks={this.state.notebooks}
+                      notebooks={this.state.currentUser?.notebooks}
                       createNotebook={this.createNotebook}  
                     />
                     
@@ -186,7 +195,7 @@ class App extends Component {
             
 
         </BrowserRouter>
-        <button onClick={()=>{this.getUserData()}}>test</button>
+        <button onClick={()=>{this.createNotebook()}}>test</button>
       </div>
     )
   }

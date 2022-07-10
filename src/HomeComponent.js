@@ -19,6 +19,7 @@ const Home = (props)=>{
             <div className='secondary-home-div'>
                 <Notebooks
                     notebooks={props.notebooks}
+                    createNotebook={props.createNotebook}
                 />    
             </div>
             
