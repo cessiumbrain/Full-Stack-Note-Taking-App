@@ -25,7 +25,8 @@ const Home = (props)=>{
 
                 />
                 <Notes
-                    selectedNotebook={props.selectedNotebook}></Notes>
+                    createNote={props.createNote}
+                    selectedNotebook={props.selectedNotebook}/>
             </div>
             
             <Button onClick={()=>{props.firebaseSignout()}}>Sign Out</Button>

@@ -35,6 +35,10 @@ body{
     margin: 0;
 }
 
+.home-div {
+    width: 80%;
+}
+
 .login-div {
     max-width: 1000px;
     display: flex;
@@ -49,16 +53,29 @@ body{
 
 .secondary-home-div {
     display: flex;
+    justify-content: space-around;
     min-width: 80%;
     background-color: rgba(0,0,0,.1);
     filter: drop-shadow(30px 30px 4px rgba(0,0,0,0.2));
     padding: 10px;
     border-radius: 5px;
 
+    .note-div {
+        border: 1px solid white;
+        padding: 3px;
+    }
+
+    .notes-div {
+        @include custom-buttons()
+    }
+    .notebooks-div{
+        @include custom-buttons()
+    }
+
 
 }
 
 .notebooks-div {
 
-    @include custom-buttons()
+    
 }

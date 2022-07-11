@@ -19,6 +19,7 @@ import CreateAccount from './CreateAccountComponent';
 import Home from './HomeComponent.js'
 
 import { Nav } from 'reactstrap';
+import { uid } from 'uid';
 
 
 // Initialize Firebase
@@ -48,6 +49,7 @@ class App extends Component {
     }
   }
   getUserData=async ()=>{ 
+    console.log('getting user data')
     const q = await query(usersCollection, where('authId', '==', this.state.currentUser.authId));
     const querySnapshot = await getDocs(q)
     const currentUserData = querySnapshot.docs[0].data()
@@ -59,10 +61,16 @@ class App extends Component {
         documentId : currentUserDocumentId,
         currentUserEmail : currentUserData.email
       }
+    }, 
+    //if there is a selected notebook- we wait for the state to be update before selecting it again to grab new data
+    ()=>{
+      if(this.state.selectedNotebook){
+        this.selectNotebook(this.state.selectedNotebook.id)
+      }
     })
   }
   
-
+  //notebooks
   createNotebook= async (title)=>{
     const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
     const currentDoc = await (await getDoc(docRef)).data();
@@ -91,7 +99,7 @@ class App extends Component {
     )
   }
 
-  selectNotebook = (notebookId, newTitle) =>{
+  selectNotebook = (notebookId) =>{
     //look through the current Users notebooks and pull out the one with the id passed in to this func
     const selectedNotebook = this.state.currentUser.notebooks.find(notebook=>{
       return notebook.id === notebookId
@@ -99,10 +107,10 @@ class App extends Component {
     this.setState({
       ...this.state,
       selectedNotebook: selectedNotebook
-    }, ()=>{console.log(this.state)})
+    })
   }
 
-  updateNotebook = async () =>{
+  updateNotebookTitle = async () =>{
     //grab user document
     const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
     const currentDoc = await (await getDoc(docRef)).data();
@@ -110,6 +118,43 @@ class App extends Component {
     //find and replace the given notebook title with new notebook object
   }
 
+  //notes
+  createNote = async (noteTitle, noteContent) =>{
+  const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
+  const currentDoc = await(await getDoc(docRef)).data();
+  //reference the current notebook object
+  const currentNotebook = currentDoc.notebooks.find(notebook=>{
+    return notebook.id === this.state.selectedNotebook.id
+  })
+  //create the new notebook object by spreading the old one then concatinating the new note into the notes array
+  const newNotebook = {
+    ...currentNotebook,
+    notes: currentNotebook.notes.concat({
+      title: noteTitle,
+      content: noteContent,
+      id: uuidv4()
+
+    })
+  }
+  //find the index of the notebook to replace by id
+  const replacingIndex = currentDoc.notebooks.findIndex(notebook=>{
+    return notebook.id === this.state.selectedNotebook.id 
+  })
+  //mutate the notebooks array by splicing in the new notebook object create above
+  currentDoc.notebooks.splice(replacingIndex, 1, newNotebook)
+
+  //update the document in firestore
+  const newDoc = await updateDoc(docRef, {
+    notebooks: [
+      ...currentDoc.notebooks
+    ]
+  })
+  //update state by calling the get userData function again
+  this.getUserData()
+
+  }
+
+  //firebase
   firebaseCreateAccount = (email, password)=>{
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -202,7 +247,8 @@ class App extends Component {
                       //functions
                       firebaseSignout={this.firebaseSignout}
                       createNotebook={this.createNotebook}
-                      selectNotebook={this.selectNotebook}  
+                      selectNotebook={this.selectNotebook}
+                      createNote={this.createNote}  
                       //data
                       selectedNotebook={this.state.selectedNotebook}
                       currentUser={this.state.currentUser}
@@ -216,7 +262,7 @@ class App extends Component {
             
 
         </BrowserRouter>
-        <button onClick={()=>{this.updateNotebook()}}>test</button>
+        <button onClick={()=>{this.createNote('xxxx', 'xxxx')}}>test</button>
       </div>
     )
   }

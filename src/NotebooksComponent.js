@@ -7,9 +7,9 @@ const Notebooks = (props)=>{
 
     return(
         
-        <>
+        <div className="notebooks-div">
         {props.notebooks ? (
-            <div className="notebooks-div">
+            <div className="notebook-buttons-div">
                     <h2>Notebooks</h2>
                     {props.notebooks.map((notebook)=>{
                         return(
@@ -26,7 +26,7 @@ const Notebooks = (props)=>{
        
     <Input onChange={(e)=>{setNotebookTitle(e.target.value)}}></Input>
     <Button onClick={()=>{props.createNotebook(notebookTitle)}}>Create Notebook</Button>
-     </>
+     </div>
     )
    
 }

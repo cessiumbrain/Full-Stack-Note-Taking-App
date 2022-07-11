@@ -14,6 +14,10 @@ body {
   margin: 0;
 }
 
+.home-div {
+  width: 80%;
+}
+
 .login-div {
   max-width: 1000px;
   display: flex;
@@ -36,20 +40,35 @@ body {
 
 .secondary-home-div {
   display: flex;
+  justify-content: space-around;
   min-width: 80%;
   background-color: rgba(0, 0, 0, 0.1);
   filter: drop-shadow(30px 30px 4px rgba(0, 0, 0, 0.2));
   padding: 10px;
   border-radius: 5px;
 }
-
-.notebooks-div .btn {
+.secondary-home-div .note-div {
+  border: 1px solid white;
+  padding: 3px;
+}
+.secondary-home-div .notes-div .btn {
   margin-top: 5px;
   background-color: #fc9f6d;
   border: 2px solid white;
   width: 100%;
 }
-.notebooks-div .btn:hover {
+.secondary-home-div .notes-div .btn:hover {
+  background-color: white;
+  color: #fc9f6d;
+  border: 2px solid #fc9f6d;
+}
+.secondary-home-div .notebooks-div .btn {
+  margin-top: 5px;
+  background-color: #fc9f6d;
+  border: 2px solid white;
+  width: 100%;
+}
+.secondary-home-div .notebooks-div .btn:hover {
   background-color: white;
   color: #fc9f6d;
   border: 2px solid #fc9f6d;
