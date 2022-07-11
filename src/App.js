@@ -11,7 +11,7 @@ import firebaseConfig from './firebaseConfig';
 //other imports---------->
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
-
+import { v4 as uuidv4 } from 'uuid';
 
 //components---------->
 import Login from './LoginComponent';
@@ -43,14 +43,12 @@ class App extends Component {
         {}
       
       */
-      currentNotebook: {}
+
       
     }
   }
-  getUserData=async ()=>{
-    console.log(this.state.currentUser.authId)
+  getUserData=async ()=>{ 
     const q = await query(usersCollection, where('authId', '==', this.state.currentUser.authId));
-    console.log(q)
     const querySnapshot = await getDocs(q)
     const currentUserData = querySnapshot.docs[0].data()
     const currentUserDocumentId = querySnapshot.docs[0].id
@@ -61,7 +59,7 @@ class App extends Component {
         documentId : currentUserDocumentId,
         currentUserEmail : currentUserData.email
       }
-    }, ()=>console.log(this.state))
+    })
   }
   
 
@@ -71,6 +69,7 @@ class App extends Component {
     const newDoc = {
       ...currentDoc,
       notebooks: currentDoc.notebooks.concat({
+        id: uuidv4(),
         title: title,
         notes: [
 
@@ -87,10 +86,28 @@ class App extends Component {
         ...this.state.currentUser,
         notebooks: [ ...updatedDoc.notebooks]
       
-      },
+      }
+    }, ()=>console.log(this.state)
+    )
+  }
 
+  selectNotebook = (notebookId, newTitle) =>{
+    //look through the current Users notebooks and pull out the one with the id passed in to this func
+    const selectedNotebook = this.state.currentUser.notebooks.find(notebook=>{
+      return notebook.id === notebookId
     })
-    
+    this.setState({
+      ...this.state,
+      selectedNotebook: selectedNotebook
+    }, ()=>{console.log(this.state)})
+  }
+
+  updateNotebook = async () =>{
+    //grab user document
+    const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
+    const currentDoc = await (await getDoc(docRef)).data();
+    console.log(currentDoc)
+    //find and replace the given notebook title with new notebook object
   }
 
   firebaseCreateAccount = (email, password)=>{
@@ -182,10 +199,14 @@ class App extends Component {
                         firebaseCreateAccount={this.firebaseCreateAccount}/>}/>
                   <Route path='/home' index element={
                     <Home
-                      currentUser={this.state.currentUser}
+                      //functions
                       firebaseSignout={this.firebaseSignout}
+                      createNotebook={this.createNotebook}
+                      selectNotebook={this.selectNotebook}  
+                      //data
+                      selectedNotebook={this.state.selectedNotebook}
+                      currentUser={this.state.currentUser}
                       notebooks={this.state.currentUser?.notebooks}
-                      createNotebook={this.createNotebook}  
                     />
                     
                   }/>
@@ -195,7 +216,7 @@ class App extends Component {
             
 
         </BrowserRouter>
-        <button onClick={()=>{this.createNotebook()}}>test</button>
+        <button onClick={()=>{this.updateNotebook()}}>test</button>
       </div>
     )
   }

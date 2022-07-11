@@ -3,6 +3,7 @@ import {Button} from 'reactstrap'
 import { useNavigate } from 'react-router'
 
 import Notebooks from './NotebooksComponent'
+import Notes from './NotesComponent'
 
 const Home = (props)=>{
 
@@ -20,7 +21,11 @@ const Home = (props)=>{
                 <Notebooks
                     notebooks={props.notebooks}
                     createNotebook={props.createNotebook}
-                />    
+                    selectNotebook={props.selectNotebook}
+
+                />
+                <Notes
+                    selectedNotebook={props.selectedNotebook}></Notes>
             </div>
             
             <Button onClick={()=>{props.firebaseSignout()}}>Sign Out</Button>

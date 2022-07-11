@@ -11,9 +11,9 @@ const Notebooks = (props)=>{
         {props.notebooks ? (
             <div className="notebooks-div">
                     <h2>Notebooks</h2>
-                    {props.notebooks.map(notebook=>{
+                    {props.notebooks.map((notebook)=>{
                         return(
-                            <Button>
+                            <Button onClick={()=>{props.selectNotebook(notebook.id)}} key={notebook.id}>
                                 {notebook.title}
                             </Button>
 
