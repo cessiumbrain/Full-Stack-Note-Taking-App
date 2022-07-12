@@ -13,6 +13,13 @@ body {
   background: linear-gradient(90deg, rgb(239, 145, 55) 0%, rgb(252, 213, 120) 100%);
   margin: 0;
 }
+.App i {
+  background-color: #fc9f6d;
+  padding: 5px;
+  border: 1px solid white;
+  color: white;
+  border-radius: 5px;
+}
 
 .home-div {
   width: 80%;

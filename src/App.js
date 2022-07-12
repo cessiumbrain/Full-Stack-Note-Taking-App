@@ -154,6 +154,30 @@ class App extends Component {
 
   }
 
+  deleteNote = async (noteId) =>{
+    const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
+    const currentDoc = await(await getDoc(docRef)).data();
+    //reference the current notebook object
+    const currentNotebook = currentDoc.notebooks.find(notebook=>{
+      return notebook.id === this.state.selectedNotebook.id
+    })
+    const notesReplacingIndex = currentNotebook.notes.findIndex(note=>{
+      return note.id ===noteId
+    })
+    //mutate the current notebook's notes array
+    currentNotebook.notes.splice(notesReplacingIndex, 1)
+    //find the index of the notebook to splice
+    const notebooksReplacingIndex = currentDoc.notebooks.findIndex(notebook=>{
+      return notebook.id === currentNotebook.id
+    })
+    currentDoc.notebooks.splice(notebooksReplacingIndex, 1, currentNotebook)
+    //update the document
+    await updateDoc(docRef, {
+      notebooks: currentDoc.notebooks
+    })
+    this.getUserData()
+  }
+
   //firebase
   firebaseCreateAccount = (email, password)=>{
       createUserWithEmailAndPassword(auth, email, password)
@@ -249,6 +273,7 @@ class App extends Component {
                       createNotebook={this.createNotebook}
                       selectNotebook={this.selectNotebook}
                       createNote={this.createNote}  
+                      deleteNote={this.deleteNote}
                       //data
                       selectedNotebook={this.state.selectedNotebook}
                       currentUser={this.state.currentUser}

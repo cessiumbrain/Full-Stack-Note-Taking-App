@@ -11,6 +11,7 @@ const Notes = props=>{
                             <div  className="note-div"key={note.id}>
                             <h2>{note.title}</h2>
                             <p>{note.content}</p>
+                            <i onClick={()=>{props.deleteNote(note.id)}} className="fa-solid fa-trash-can"></i>
                             </div>
                         )
                     })

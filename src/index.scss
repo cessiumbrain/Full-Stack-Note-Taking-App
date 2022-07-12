@@ -18,6 +18,16 @@ $main-font: 'Roboto';
         border: 2px solid $primary-color
     }
 }
+@mixin icon-buttons() {
+    i{
+        background-color: $primary-color;    
+        padding: 5px;
+        border: 1px solid $secondary-color;
+        color: $secondary-color;
+        border-radius: 5px;
+    }
+    
+}
 
 
 body{
@@ -33,6 +43,8 @@ body{
     min-height: 100vh;
     background: linear-gradient(90deg, rgba(239,145,55,1) 0%, rgba(252,213,120,1) 100%);
     margin: 0;
+
+    @include icon-buttons()
 }
 
 .home-div {
@@ -73,9 +85,4 @@ body{
     }
 
 
-}
-
-.notebooks-div {
-
-    
 }
