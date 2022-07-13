@@ -54,6 +54,16 @@ body {
   padding: 10px;
   border-radius: 5px;
 }
+.secondary-home-div .modal-div {
+  background-color: #fc9f6d;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+}
+.secondary-home-div .modal-div .inner-modal-content {
+  background-color: none;
+}
 .secondary-home-div .note-div {
   border: 1px solid white;
   padding: 3px;

@@ -72,6 +72,18 @@ body{
     padding: 10px;
     border-radius: 5px;
 
+    .modal-div {
+        background-color: $primary-color;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: 1;
+
+        .inner-modal-content {
+            background-color: none; ;
+        }
+    }
+
     .note-div {
         border: 1px solid white;
         padding: 3px;

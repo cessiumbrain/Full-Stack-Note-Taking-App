@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {Button} from 'reactstrap'
 import { useNavigate } from 'react-router'
 
@@ -14,10 +14,21 @@ const Home = (props)=>{
             navigate('/login')
         }
     })
+
+    const [modalStyle, setModalStyle] = useState({})
    
     return(
         <div className="home-div">
             <div className='secondary-home-div'>
+                <div className="modal-div" style={modalStyle}>
+                    <div className='inner-modal-content'>
+                         are you sure you want to delete this notebook?
+                         <Button onClick={()=>{setModalStyle({display: 'none'})}}>
+                            Confirm
+                         </Button>
+                    </div>
+                   
+                </div>
                 <Notebooks
                     notebooks={props.notebooks}
                     createNotebook={props.createNotebook}
