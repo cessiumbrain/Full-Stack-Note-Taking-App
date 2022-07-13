@@ -118,6 +118,19 @@ class App extends Component {
     //find and replace the given notebook title with new notebook object
   }
 
+  deleteNotebook = async (notebookId) =>{
+    const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
+    const currentDoc = await (await getDoc(docRef)).data();
+
+    //remove notebook from currentDoc's notebook array
+    const newNotebooksArray = currentDoc.notebooks.filter(notebook=>notebook.id!==notebookId)
+    console.log(newNotebooksArray)
+    updateDoc(docRef, {
+      notebooks: newNotebooksArray
+    })
+    this.getUserData()
+  }
+
   //notes
   createNote = async (noteTitle, noteContent) =>{
   const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
@@ -151,6 +164,9 @@ class App extends Component {
   })
   //update state by calling the get userData function again
   this.getUserData()
+
+  }
+  updateNote = async (noteTitle, noteContent)=>{
 
   }
 
@@ -270,8 +286,10 @@ class App extends Component {
                     <Home
                       //functions
                       firebaseSignout={this.firebaseSignout}
+                      
                       createNotebook={this.createNotebook}
                       selectNotebook={this.selectNotebook}
+                      deleteNotebook={this.deleteNotebook}
                       createNote={this.createNote}  
                       deleteNote={this.deleteNote}
                       //data

@@ -81,7 +81,36 @@ body{
         @include custom-buttons()
     }
     .notebooks-div{
-        @include custom-buttons()
+        border: 1px solid white;
+        
+
+        
+        .individual-notebook-div {
+            display: flex;
+            .btn {
+                flex-grow: 1.2;
+                background: $primary-color;
+                color: $secondary-color;
+                border: 1px solid $secondary-color;
+                margin: 2px;
+                width: 80%;
+            }
+            i {
+
+                float: right;
+
+                font-size: 100%;
+                margin: 2px;
+            
+            }
+        }
+        
+
+
+        .create-notebook-button {
+            width: 100%;
+        }
+
     }
 
 

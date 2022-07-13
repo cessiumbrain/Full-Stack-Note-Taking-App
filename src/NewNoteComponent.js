@@ -2,16 +2,20 @@ import {Button, Input} from 'reactstrap';
 import {useState} from 'react'
 
 const NewNote = props =>{
-    const [noteTitle, setNoteTitle]= useState('')
-    const [noteContent, setNoteContent]= useState('')
+    const [noteTitle, setNoteTitle]= useState(' ')
+    const [noteContent, setNoteContent]= useState(' ')
 
     return(
         <div className="new-note-div">
             <label>Note Title</label>
-            <Input onChange={(e)=>{setNoteTitle(e.target.value)}}></Input>
+            <Input value={noteTitle} onChange={(e)=>{setNoteTitle(e.target.value)}}></Input>
             <label>Note Content</label>
-            <Input onChange={(e)=>{setNoteContent(e.target.value)}}></Input>
-            <Button onClick={()=>{props.createNote(noteTitle, noteContent)}}>Add Note</Button>
+            <Input value={noteContent}onChange={(e)=>{setNoteContent(e.target.value)}}></Input>
+            <Button onClick={()=>{
+                props.createNote(noteTitle, noteContent)
+                setNoteContent(' ')
+                setNoteTitle(' ')
+                }}>Add Note</Button>
 
         </div>
         

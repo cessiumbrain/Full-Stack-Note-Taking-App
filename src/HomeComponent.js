@@ -22,6 +22,7 @@ const Home = (props)=>{
                     notebooks={props.notebooks}
                     createNotebook={props.createNotebook}
                     selectNotebook={props.selectNotebook}
+                    deleteNotebook={props.deleteNotebook}
 
                 />
                 <Notes

@@ -69,14 +69,25 @@ body {
   color: #fc9f6d;
   border: 2px solid #fc9f6d;
 }
-.secondary-home-div .notebooks-div .btn {
-  margin-top: 5px;
-  background-color: #fc9f6d;
-  border: 2px solid white;
-  width: 100%;
+.secondary-home-div .notebooks-div {
+  border: 1px solid white;
 }
-.secondary-home-div .notebooks-div .btn:hover {
-  background-color: white;
-  color: #fc9f6d;
-  border: 2px solid #fc9f6d;
+.secondary-home-div .notebooks-div .individual-notebook-div {
+  display: flex;
+}
+.secondary-home-div .notebooks-div .individual-notebook-div .btn {
+  flex-grow: 1.2;
+  background: #fc9f6d;
+  color: white;
+  border: 1px solid white;
+  margin: 2px;
+  width: 80%;
+}
+.secondary-home-div .notebooks-div .individual-notebook-div i {
+  float: right;
+  font-size: 100%;
+  margin: 2px;
+}
+.secondary-home-div .notebooks-div .create-notebook-button {
+  width: 100%;
 }/*# sourceMappingURL=index.css.map */
