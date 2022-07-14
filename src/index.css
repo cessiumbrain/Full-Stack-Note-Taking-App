@@ -56,10 +56,11 @@ body {
 }
 .secondary-home-div .modal-div {
   background-color: #fc9f6d;
-  height: 100%;
-  width: 100%;
+  height: 80%;
+  width: 80%;
   position: fixed;
   z-index: 1;
+  border: 1px solid white;
 }
 .secondary-home-div .modal-div .inner-modal-content {
   background-color: none;
@@ -67,6 +68,10 @@ body {
 .secondary-home-div .note-div {
   border: 1px solid white;
   padding: 3px;
+}
+.secondary-home-div .note-div [contenteditable=true] {
+  background-color: white;
+  border-radius: 5px;
 }
 .secondary-home-div .notes-div .btn {
   margin-top: 5px;

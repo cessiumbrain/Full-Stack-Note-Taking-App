@@ -13,11 +13,14 @@ const Notebooks = (props)=>{
                     <h2>Notebooks</h2>
                     {props.notebooks.map((notebook)=>{
                         return(
-                            <div className="individual-notebook-div">
+                            <div key={notebook.id}className="individual-notebook-div">
                             <Button onClick={()=>{props.selectNotebook(notebook.id)}} key={notebook.id}>
                                 {notebook.title}
                             </Button>
-                            <i className="fa-solid fa-trash-can" onClick={()=>{props.deleteNotebook(notebook.id)}}></i>
+                            <i className="fa-solid fa-trash-can" onClick={()=>{
+                                props.setModalStyle({display: 'block'});
+                                props.setNotebookToDelete(notebook.id)
+                                }}></i>
                             </div>
                             
 

@@ -101,13 +101,16 @@ class App extends Component {
 
   selectNotebook = (notebookId) =>{
     //look through the current Users notebooks and pull out the one with the id passed in to this func
+    console.log(notebookId)
+
     const selectedNotebook = this.state.currentUser.notebooks.find(notebook=>{
       return notebook.id === notebookId
     })
+    console.log(selectedNotebook)
     this.setState({
       ...this.state,
       selectedNotebook: selectedNotebook
-    })
+    }, ()=>{console.log(this.state.selectedNotebook)})
   }
 
   updateNotebookTitle = async () =>{
@@ -132,6 +135,24 @@ class App extends Component {
   }
 
   //notes
+
+  editNote = (noteId) =>{
+    //grab note object 
+    console.log(noteId)
+    const noteObj = this.state.selectedNotebook.notes.find(note=>{
+      return note.id === noteId
+    })
+
+    this.setState({
+      noteBeingEdited: noteObj 
+    }, ()=>{console.log(this.state.noteBeingEdited)})
+  }
+
+  cancelEdit  = () =>{
+    this.setState({
+      noteBeingEdited : null
+    })
+  }
   createNote = async (noteTitle, noteContent) =>{
   const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
   const currentDoc = await(await getDoc(docRef)).data();
@@ -290,12 +311,15 @@ class App extends Component {
                       createNotebook={this.createNotebook}
                       selectNotebook={this.selectNotebook}
                       deleteNotebook={this.deleteNotebook}
+                      editNote={this.editNote}
                       createNote={this.createNote}  
                       deleteNote={this.deleteNote}
+                      cancelEdit={this.cancelEdit}
                       //data
                       selectedNotebook={this.state.selectedNotebook}
                       currentUser={this.state.currentUser}
                       notebooks={this.state.currentUser?.notebooks}
+                      noteBeingEdited={this.state.noteBeingEdited}
                     />
                     
                   }/>
