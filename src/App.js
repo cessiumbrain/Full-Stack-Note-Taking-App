@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Login from './LoginComponent';
 import CreateAccount from './CreateAccountComponent';
 import Home from './HomeComponent.js'
+import RootNav from './RootNavComponent';
 
 import { Nav } from 'reactstrap';
 import { uid } from 'uid';
@@ -306,6 +307,10 @@ class App extends Component {
        
         <BrowserRouter>
                 <Routes>         
+                  <Route path='/' element={
+                    <RootNav/>
+                  }
+                  />
                   <Route path='/login' element={
                     <Login
                       firebaseLogin={this.firebaseLogin}
