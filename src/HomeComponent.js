@@ -6,7 +6,6 @@ import Notebooks from './NotebooksComponent'
 import Notes from './NotesComponent'
 
 const Home = (props)=>{
-
     const navigate = useNavigate()
     //if there's no current user navigate back to login
     useEffect(()=>{
@@ -48,6 +47,7 @@ const Home = (props)=>{
                     deleteNote={props.deleteNote}
                     editNote={props.editNote}
                     cancelEdit={props.cancelEdit}
+                    updateNote={props.updateNote}
                     //data
                     selectedNotebook={props.selectedNotebook}    
                     noteBeingEdited={props.noteBeingEdited}

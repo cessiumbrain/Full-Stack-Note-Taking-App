@@ -2,7 +2,6 @@ import { useState } from "react"
 import NewNote from "./NewNoteComponent"
 
 const Notes = props=>{
-
     if(props.selectedNotebook){
         return(
            <div className="notes-div">
@@ -28,6 +27,7 @@ const Notes = props=>{
                     createNote={props.createNote}
                     noteBeingEdited={props.noteBeingEdited}
                     cancelEdit={props.cancelEdit}
+                    updateNote={props.updateNote}
                 />
             </div> 
         )

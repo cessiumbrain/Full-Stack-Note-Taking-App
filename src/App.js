@@ -49,7 +49,6 @@ class App extends Component {
     }
   }
   getUserData=async ()=>{ 
-    console.log('getting user data')
     const q = await query(usersCollection, where('authId', '==', this.state.currentUser.authId));
     const querySnapshot = await getDocs(q)
     const currentUserData = querySnapshot.docs[0].data()
@@ -101,16 +100,16 @@ class App extends Component {
 
   selectNotebook = (notebookId) =>{
     //look through the current Users notebooks and pull out the one with the id passed in to this func
-    console.log(notebookId)
+
 
     const selectedNotebook = this.state.currentUser.notebooks.find(notebook=>{
       return notebook.id === notebookId
     })
-    console.log(selectedNotebook)
+
     this.setState({
       ...this.state,
       selectedNotebook: selectedNotebook
-    }, ()=>{console.log(this.state.selectedNotebook)})
+    })
   }
 
   updateNotebookTitle = async () =>{
@@ -138,7 +137,6 @@ class App extends Component {
 
   editNote = (noteId) =>{
     //grab note object 
-    console.log(noteId)
     const noteObj = this.state.selectedNotebook.notes.find(note=>{
       return note.id === noteId
     })
@@ -188,7 +186,22 @@ class App extends Component {
 
   }
   updateNote = async (noteTitle, noteContent)=>{
+    console.log(noteTitle, noteContent)
+    const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
+    const currentDoc = await (await getDoc(docRef)).data();
 
+   
+    //find the note being edited
+    const currentNoteObject = this.state.selectedNotebook.notes.find(note=>{
+     return note.id === this.state.noteBeingEdited.id
+    })
+
+    const newNoteObject = {
+      ...currentNoteObject,
+      noteTitle: noteTitle,
+      noteContent: noteContent
+    }
+    console.log(newNoteObject)
   }
 
   deleteNote = async (noteId) =>{
@@ -315,6 +328,7 @@ class App extends Component {
                       createNote={this.createNote}  
                       deleteNote={this.deleteNote}
                       cancelEdit={this.cancelEdit}
+                      updateNote={this.updateNote}
                       //data
                       selectedNotebook={this.state.selectedNotebook}
                       currentUser={this.state.currentUser}

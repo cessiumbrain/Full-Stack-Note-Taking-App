@@ -1,42 +1,46 @@
 import {Button, Input} from 'reactstrap';
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 
 const NewNote = props =>{
 
-
-    const [noteTitle, setNoteTitle]= useState(' ')
-    const [noteContent, setNoteContent]= useState(' ')
+    const noteTitleRef = useRef('')
+    const noteContentRef = useRef('')
 
     useEffect(()=>{
         if(props.noteBeingEdited){
-            console.log('note being edited')
-            setNoteTitle(props.noteBeingEdited.title)
-            setNoteContent(props.noteBeingEdited.content)
-        } else {
-            setNoteTitle(' ')
-            setNoteContent(' ')
+            noteTitleRef.current.value= props.noteBeingEdited.title
+            noteContentRef.current.value = props.noteBeingEdited.content
         }
     })
+    
+    const clearInputs = () =>{
+        noteTitleRef.current.value = ''
+        noteContentRef.current.value=''
+    }
+    
+ 
+
+   
 
     return(
         <div className="new-note-div">
             <label>Note Title</label>
-            <Input value={noteTitle} onChange={(e)=>{setNoteTitle(e.target.value)}}></Input>
+            <input ref={noteTitleRef} ></input>
+
             <label>Note Content</label>
-            <Input value={noteContent} onChange={(e)=>{setNoteContent(e.target.value)}}></Input>
+            <input ref={noteContentRef}></input>
 
             {
                 props.noteBeingEdited ? ( 
                     <>
-                        <Button>Edit Note</Button>
-                        <Button onClick={()=>{props.cancelEdit()}}>Cancel</Button>
+                        <Button onClick={()=>{props.updateNote(noteTitleRef.current.value, noteContentRef.current.value, props.noteBeingEdited.id)}}>Edit Note</Button>
+                        <Button onClick={()=>{props.cancelEdit(); clearInputs()}}>Cancel</Button>
                     </>
                 ) : ( 
                 
                 <Button onClick={()=>{
-                props.createNote(noteTitle, noteContent)
-                setNoteContent(' ')
-                setNoteTitle(' ')
+                props.createNote(noteTitleRef.current.value, noteContentRef.current.value)
+                clearInputs()
                 }}>Add Note</Button>)
             }
             
