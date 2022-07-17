@@ -127,7 +127,7 @@ class App extends Component {
 
     //remove notebook from currentDoc's notebook array
     const newNotebooksArray = currentDoc.notebooks.filter(notebook=>notebook.id!==notebookId)
-    console.log(newNotebooksArray)
+
     updateDoc(docRef, {
       notebooks: newNotebooksArray
     })
@@ -199,10 +199,46 @@ class App extends Component {
 
     const newNoteObject = {
       ...currentNoteObject,
-      noteTitle: noteTitle,
-      noteContent: noteContent
+      title: noteTitle,
+      content: noteContent
     }
     console.log(newNoteObject)
+
+    const newNotesArray = this.state.selectedNotebook.notes.map(noteObj=>{
+      if(noteObj.id===this.state.noteBeingEdited.id){
+        return newNoteObject
+      } else {
+        return noteObj
+      }
+    })
+
+    const newNotebookObject = {
+      ...this.state.selectedNotebook,
+      notes: newNotesArray
+    }
+
+    console.log(newNotebookObject)
+
+    const newNotebooksArray = this.state.currentUser.notebooks.map(notebook=>{
+      if(notebook.id===this.state.selectedNotebook.id){
+        return newNotebookObject
+      } else {
+        return notebook
+      }
+    })
+    console.log(newNotebooksArray)
+
+    
+    await updateDoc(docRef, {
+      notebooks: newNotebooksArray
+    })
+
+    this.getUserData()
+    this.setState({
+      noteBeingEdited: null
+    })
+
+
   }
 
   deleteNote = async (noteId) =>{

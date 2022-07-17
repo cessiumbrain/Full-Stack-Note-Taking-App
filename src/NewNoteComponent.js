@@ -33,13 +33,16 @@ const NewNote = props =>{
             {
                 props.noteBeingEdited ? ( 
                     <>
-                        <Button onClick={()=>{props.updateNote(noteTitleRef.current.value, noteContentRef.current.value, props.noteBeingEdited.id)}}>Edit Note</Button>
+                        <Button onClick={()=>{
+                            props.updateNote(noteTitleRef.current.value, noteContentRef.current.value, props.noteBeingEdited.id)
+                            clearInputs()
+                            }}>Edit Note</Button>
                         <Button onClick={()=>{props.cancelEdit(); clearInputs()}}>Cancel</Button>
                     </>
                 ) : ( 
                 
                 <Button onClick={()=>{
-                props.createNote(noteTitleRef.current.value, noteContentRef.current.value)
+                props.createNote(noteTitleRef.current.value, noteContentRef.current.value);
                 clearInputs()
                 }}>Add Note</Button>)
             }
