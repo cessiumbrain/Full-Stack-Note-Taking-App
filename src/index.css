@@ -13,6 +13,21 @@ body {
   background: linear-gradient(90deg, rgb(239, 145, 55) 0%, rgb(252, 213, 120) 100%);
   margin: 0;
 }
+.App .mobile-nav {
+  position: absolute;
+  top: 0;
+  background-color: #fc9f6d;
+  width: 100%;
+  display: none;
+}
+.App .mobile-nav i {
+  background-color: none;
+  color: white;
+  height: auto;
+  border: none;
+  float: right;
+  font-size: 2rem;
+}
 .App i {
   background-color: #fc9f6d;
   padding: 5px;
@@ -23,6 +38,17 @@ body {
 
 .home-div {
   width: 80%;
+}
+.home-div .btn {
+  margin-top: 5px;
+  background-color: #fc9f6d;
+  border: 2px solid white;
+  width: 100%;
+}
+.home-div .btn:hover {
+  background-color: white;
+  color: #fc9f6d;
+  border: 2px solid #fc9f6d;
 }
 
 .login-div {
@@ -65,13 +91,9 @@ body {
 .secondary-home-div .modal-div .inner-modal-content {
   background-color: none;
 }
-.secondary-home-div .note-div {
-  border: 1px solid white;
-  padding: 3px;
-}
-.secondary-home-div .note-div [contenteditable=true] {
-  background-color: white;
-  border-radius: 5px;
+.secondary-home-div .notes-div {
+  text-align: center;
+  min-width: 30%;
 }
 .secondary-home-div .notes-div .btn {
   margin-top: 5px;
@@ -84,12 +106,30 @@ body {
   color: #fc9f6d;
   border: 2px solid #fc9f6d;
 }
+.secondary-home-div .notes-div .note-div {
+  padding: 3px;
+}
+.secondary-home-div .notes-div .note-div [contenteditable=true] {
+  background-color: white;
+  border-radius: 5px;
+}
 .secondary-home-div .new-note-div input {
   display: block;
   width: 100%;
 }
 .secondary-home-div .notebooks-div {
-  border: 1px solid white;
+  text-align: center;
+}
+.secondary-home-div .notebooks-div .btn {
+  margin-top: 5px;
+  background-color: #fc9f6d;
+  border: 2px solid white;
+  width: 100%;
+}
+.secondary-home-div .notebooks-div .btn:hover {
+  background-color: white;
+  color: #fc9f6d;
+  border: 2px solid #fc9f6d;
 }
 .secondary-home-div .notebooks-div .individual-notebook-div {
   display: flex;
@@ -109,4 +149,28 @@ body {
 }
 .secondary-home-div .notebooks-div .create-notebook-button {
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .App .mobile-nav {
+    position: absolute;
+    top: 0;
+    background-color: #fc9f6d;
+    width: 100%;
+    display: block;
+  }
+  .App .mobile-nav i {
+    background-color: none;
+    color: white;
+    height: auto;
+    border: none;
+    float: right;
+    font-size: 2rem;
+    margin-right: 10px;
+  }
+  .notebooks-div {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+  }
 }/*# sourceMappingURL=index.css.map */

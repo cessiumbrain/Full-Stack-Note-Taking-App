@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //firebase---------->
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import {getFirestore, collection, addDoc, setDoc, doc, getDocs, updateDoc, getDoc, query, where} from'firebase/firestore';
 import firebaseConfig from './firebaseConfig';
 
@@ -18,9 +18,11 @@ import Login from './LoginComponent';
 import CreateAccount from './CreateAccountComponent';
 import Home from './HomeComponent.js'
 import RootNav from './RootNavComponent';
+import Notebooks from './NotebooksComponent';
 
 import { Nav } from 'reactstrap';
 import { uid } from 'uid';
+
 
 
 // Initialize Firebase
@@ -36,10 +38,10 @@ class App extends Component {
     super(props)
     this.state={
       /*currentUser:{
-        id:...
+        authId:...
         email...
         notebooks:
-        userDocId: ...
+        documentId: ...
       }
       selectedNotebook: 
         {}
@@ -74,6 +76,7 @@ class App extends Component {
   createNotebook= async (title)=>{
     const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
     const currentDoc = await (await getDoc(docRef)).data();
+    console.log(currentDoc)
     const newDoc = {
       ...currentDoc,
       notebooks: currentDoc.notebooks.concat({
@@ -226,8 +229,6 @@ class App extends Component {
         return notebook
       }
     })
-    console.log(newNotebooksArray)
-
     
     await updateDoc(docRef, {
       notebooks: newNotebooksArray
@@ -237,8 +238,6 @@ class App extends Component {
     this.setState({
       noteBeingEdited: null
     })
-
-
   }
 
   deleteNote = async (noteId) =>{
@@ -336,11 +335,72 @@ class App extends Component {
       });
   }
 
-  render(){
+  firebaseGoogleAuth = async () =>{
+    const provider = new GoogleAuthProvider()
   
+  let user 
+  await signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    user = result.user;
+    console.log(user.uid)
+   
+
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+
+  });
+   //call to db to see if there's a user with that uid, if so, log them in with it, otherwise create it
+  const q = query(collection(db, "Users"), where("authId", "==", user.uid));
+  const querySnapshot = await getDocs(q);
+  //if there aren't any documents for that user's auth id- create one
+  if(querySnapshot.docs.length === 0) {
+      const docRef = await addDoc(collection(db, "Users"), {
+        authId: user.uid,
+        notebooks: []
+      });
+      //set state with document ID for the new user
+      this.setState({
+        currentUser: {
+          ...this.state.currentUser,
+          documentId: docRef.id
+        }
+      }, ()=>console.log(this.state))
+    } else {
+
+      const userDoc = querySnapshot.docs[0].data()
+      console.log(querySnapshot.docs[0].id)
+
+      this.setState({
+        currentUser:{
+          documentId: querySnapshot.docs[0].id
+        }
+        
+      }, ()=>{console.log(this.state)})
+    }
+  }
+
+
+  render(){
+ 
     return (
       <div className="App">
-       
+       {this.state.currentUser ? (
+        <div className="mobile-nav">
+          <i className="fa-solid fa-bars"></i>
+       </div>) : ''}
+        
         <BrowserRouter>
                 <Routes>         
                   <Route path='/' element={
@@ -350,7 +410,9 @@ class App extends Component {
                   <Route path='/login' element={
                     <Login
                       firebaseLogin={this.firebaseLogin}
-                      currentUser={this.state.currentUser}/>}/>
+                      currentUser={this.state.currentUser}
+                      firebaseGoogleAuth={this.firebaseGoogleAuth}
+                      />}/>
                   <Route 
                     path='/create-account' 
                     element={
@@ -384,7 +446,7 @@ class App extends Component {
             
 
         </BrowserRouter>
-        <button onClick={()=>{this.createNote('xxxx', 'xxxx')}}>test</button>
+
       </div>
     )
   }

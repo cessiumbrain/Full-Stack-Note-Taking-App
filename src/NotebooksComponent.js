@@ -8,9 +8,10 @@ const Notebooks = (props)=>{
     return(
         
         <div className="notebooks-div">
+             <h2>Notebooks</h2>
         {props.notebooks ? (
             <div className="notebook-buttons-div">
-                    <h2>Notebooks</h2>
+                   
                     {props.notebooks.map((notebook)=>{
                         return(
                             <div key={notebook.id}className="individual-notebook-div">

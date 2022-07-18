@@ -35,7 +35,7 @@ const Notes = props=>{
     } else {
         return(
             <div className="notes-div">
-
+                <h2>Notes</h2>
                     
             </div>
         )

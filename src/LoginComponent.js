@@ -29,6 +29,7 @@ const Login = (props)=>{
             </NavLink>
             <Button>Test Drive without An Account</Button>
             <label>Login with:</label>
+            <i class="fa-brands fa-google" onClick={()=>props.firebaseGoogleAuth()}></i>
         </div>
     )
 }

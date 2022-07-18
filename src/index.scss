@@ -2,6 +2,7 @@ $primary-color: #fc9f6d;
 $secondary-color: white;
 $tertiary-color: #fde073;
 $main-font: 'Roboto';
+$first-breakpoint: 768px;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 @mixin custom-buttons() {
@@ -43,12 +44,32 @@ body{
     min-height: 100vh;
     background: linear-gradient(90deg, rgba(239,145,55,1) 0%, rgba(252,213,120,1) 100%);
     margin: 0;
+    
+    .mobile-nav {
+        position: absolute;
+        top: 0;
+        background-color: $primary-color;
+        width: 100%;
+        display: none;
+
+        i {
+            background-color: none;
+            color: white;
+            height: auto;
+            border: none;
+            float: right;
+            font-size: 2rem;
+            
+        }
+    }
 
     @include icon-buttons()
 }
 
 .home-div {
     width: 80%;
+
+    @include custom-buttons()
 }
 
 .login-div {
@@ -85,22 +106,22 @@ body{
         }
     }
 
-    .note-div {
-        border: 1px solid white;
-        padding: 3px;
-        
-        [contenteditable=true] {
-            background-color: $secondary-color;
-            border-radius: 5px;
-        }
-    }
+
 
     .notes-div {
-
-
+        text-align: center;
+        min-width: 30%;
         @include custom-buttons();
 
-   
+        .note-div {
+
+            padding: 3px;
+            
+            [contenteditable=true] {
+                background-color: $secondary-color;
+                border-radius: 5px;
+            }
+        }
     }
 
     .new-note-div {
@@ -111,9 +132,9 @@ body{
     }
 
     .notebooks-div{
-        border: 1px solid white;
-        
 
+        text-align: center;
+        @include custom-buttons();
         
         .individual-notebook-div {
             display: flex;
@@ -144,4 +165,35 @@ body{
     }
 
 
+}
+
+@media (max-width: 768px){
+    .App {
+ .mobile-nav {
+        position: absolute;
+        top: 0;
+        background-color: $primary-color;
+        width: 100%;
+        display: block;
+
+        i {
+            background-color: none;
+            color: white;
+            height: auto;
+            border: none;
+            float: right;
+            font-size: 2rem;
+            margin-right: 10px;
+            
+        }
+
+       
+    }
+
+    }
+    .notebooks-div {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+    }
 }
