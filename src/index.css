@@ -3,6 +3,9 @@ body {
   margin: 0px;
   font-family: "Roboto" !important;
 }
+body input {
+  box-sizing: border-box;
+}
 
 .App {
   display: flex;
@@ -14,19 +17,7 @@ body {
   margin: 0;
 }
 .App .mobile-nav {
-  position: absolute;
-  top: 0;
-  background-color: #fc9f6d;
-  width: 100%;
   display: none;
-}
-.App .mobile-nav i {
-  background-color: none;
-  color: white;
-  height: auto;
-  border: none;
-  float: right;
-  font-size: 2rem;
 }
 .App i {
   background-color: #fc9f6d;
@@ -44,11 +35,15 @@ body {
   background-color: #fc9f6d;
   border: 2px solid white;
   width: 100%;
+  box-sizing: border-box;
 }
 .home-div .btn:hover {
   background-color: white;
   color: #fc9f6d;
   border: 2px solid #fc9f6d;
+}
+.home-div #signout-button {
+  box-sizing: border-box;
 }
 
 .login-div {
@@ -61,6 +56,7 @@ body {
   background-color: #fc9f6d;
   border: 2px solid white;
   width: 100%;
+  box-sizing: border-box;
 }
 .login-div .btn:hover {
   background-color: white;
@@ -69,6 +65,9 @@ body {
 }
 .login-div a {
   width: 100%;
+}
+.login-div i {
+  text-align: center;
 }
 
 .secondary-home-div {
@@ -100,6 +99,7 @@ body {
   background-color: #fc9f6d;
   border: 2px solid white;
   width: 100%;
+  box-sizing: border-box;
 }
 .secondary-home-div .notes-div .btn:hover {
   background-color: white;
@@ -125,6 +125,7 @@ body {
   background-color: #fc9f6d;
   border: 2px solid white;
   width: 100%;
+  box-sizing: border-box;
 }
 .secondary-home-div .notebooks-div .btn:hover {
   background-color: white;
@@ -158,6 +159,7 @@ body {
     background-color: #fc9f6d;
     width: 100%;
     display: block;
+    z-index: 1;
   }
   .App .mobile-nav i {
     background-color: none;
@@ -168,9 +170,31 @@ body {
     font-size: 2rem;
     margin-right: 10px;
   }
-  .notebooks-div {
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
+  .App .mobile-nav .menu-bar {
+    height: 30px;
+  }
+  .App .mobile-nav .mobile-nav-dropdown {
+    position: relative;
+    top: 32px;
+    width: 100%;
+    background-color: #fc9f6d;
+    text-align: center;
+  }
+  .App .mobile-nav .mobile-nav-dropdown .menu-notebook-div {
+    margin: 5px;
+    border: 1px solid red;
+    height: auto;
+  }
+  .App .mobile-nav .mobile-nav-dropdown .menu-notebook-div span {
+    border: 1px solid white;
+    padding: 5px;
+    margin: 5px;
+  }
+  .App .mobile-nav .mobile-nav-dropdown h5 {
+    color: white;
+    border: 1px solid white;
+  }
+  .App .notebooks-div {
+    display: none;
   }
 }/*# sourceMappingURL=index.css.map */

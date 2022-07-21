@@ -18,7 +18,8 @@ import Login from './LoginComponent';
 import CreateAccount from './CreateAccountComponent';
 import Home from './HomeComponent.js'
 import RootNav from './RootNavComponent';
-import Notebooks from './NotebooksComponent';
+import MobileNav from './MobileNavComponent';
+
 
 import { Nav } from 'reactstrap';
 import { uid } from 'uid';
@@ -346,7 +347,7 @@ class App extends Component {
     const token = credential.accessToken;
     // The signed-in user info.
     user = result.user;
-    console.log(user.uid)
+    console.log(`user.uid ${user.uid}`)
    
 
     // ...
@@ -374,20 +375,25 @@ class App extends Component {
       this.setState({
         currentUser: {
           ...this.state.currentUser,
-          documentId: docRef.id
+          documentId: docRef.id,
+          authId: user.uid
         }
-      }, ()=>console.log(this.state))
+      })
     } else {
-
+      //if there is one set current user in state and get user data
+      console.log('query found this user in db by authId')
       const userDoc = querySnapshot.docs[0].data()
       console.log(querySnapshot.docs[0].id)
 
       this.setState({
         currentUser:{
-          documentId: querySnapshot.docs[0].id
+          documentId: querySnapshot.docs[0].id,
+          authId: querySnapshot.docs[0].data().authId
         }
         
-      }, ()=>{console.log(this.state)})
+      }, ()=>{
+        this.getUserData()
+        console.log(this.state)})
     }
   }
 
@@ -397,9 +403,11 @@ class App extends Component {
     return (
       <div className="App">
        {this.state.currentUser ? (
-        <div className="mobile-nav">
-          <i className="fa-solid fa-bars"></i>
-       </div>) : ''}
+        <MobileNav
+        notebooks={this.state.currentUser.notebooks}
+        selectNotebook={this.selectNotebook}
+        
+        ></MobileNav>) : ''}
         
         <BrowserRouter>
                 <Routes>         

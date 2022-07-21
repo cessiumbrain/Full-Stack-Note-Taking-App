@@ -55,7 +55,7 @@ const Home = (props)=>{
                     />
             </div>
             
-            <Button onClick={()=>{props.firebaseSignout()}}>Sign Out</Button>
+            <Button id="signout-button" onClick={()=>{props.firebaseSignout()}}>Sign Out</Button>
         </div>
     )
 }
