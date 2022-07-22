@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 //firebase---------->
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword ,signOut, signInWithPopup, GoogleAuthProvider, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 import {getFirestore, collection, addDoc, setDoc, doc, getDocs, updateDoc, getDoc, query, where} from'firebase/firestore';
-import firebaseConfig from './firebaseConfig';
+
 
 //other imports---------->
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,14 +24,25 @@ import MobileNav from './MobileNavComponent';
 import { Nav } from 'reactstrap';
 import { uid } from 'uid';
 
+const apiKey = process.env.REACT_APP_API_KEY
+console.log(apiKey)
 
-
+const firebaseConfig = {
+  apiKey: "AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4",
+  authDomain: "note-taking-app-b.firebaseapp.com",
+  projectId: "note-taking-app-b",
+  storageBucket: "note-taking-app-b.appspot.com",
+  messagingSenderId: "12758433387",
+  appId: "1:12758433387:web:8425c9dbe23aa5da47bb2e",
+  measurementId: "G-FXSN9FZ76Q"
+};
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 const db= getFirestore(app)
 const usersCollection = collection(db, 'Users')
+
 
 
 class App extends Component {
@@ -325,16 +336,7 @@ class App extends Component {
           const errorMessage = error.message;
         });
   }
-  firebaseSignout = ()=>{
-      signOut(auth).then(() => {
-        this.setState({
-          currentUser: null
-        }, ()=>{console.log(this.state.currentUser)})
-      }).catch((error) => {
-        console.log(error)
-        // An error happened.
-      });
-  }
+
 
   firebaseGoogleAuth = async () =>{
     const provider = new GoogleAuthProvider()
@@ -397,6 +399,40 @@ class App extends Component {
     }
   }
 
+  firebaseAnonAuth = async () =>{
+    signInAnonymously(auth)
+  .then(() => {
+    // Signed in..
+
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ...
+  });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        console.log(user)
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  }
+  firebaseSignout = ()=>{
+      signOut(auth).then(() => {
+        this.setState({
+          currentUser: null
+        }, ()=>{console.log(this.state.currentUser)})
+      }).catch((error) => {
+        console.log(error)
+        // An error happened.
+      });
+  }
 
   render(){
  
@@ -418,6 +454,7 @@ class App extends Component {
                   <Route path='/login' element={
                     <Login
                       firebaseLogin={this.firebaseLogin}
+                      firebaseAnonAuth={this.firebaseAnonAuth}
                       currentUser={this.state.currentUser}
                       firebaseGoogleAuth={this.firebaseGoogleAuth}
                       />}/>
