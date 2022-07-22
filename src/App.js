@@ -24,10 +24,12 @@ import MobileNav from './MobileNavComponent';
 import { Nav } from 'reactstrap';
 import { uid } from 'uid';
 
+import { handler } from '../netlify/functions/getKey';
+
 const apiKey = process.env.REACT_APP_API_KEY
 
 const firebaseConfig = {
-  apiKey: apiKey,
+  apiKey: 'AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4',
   authDomain: "note-taking-app-b.firebaseapp.com",
   projectId: "note-taking-app-b",
   storageBucket: "note-taking-app-b.appspot.com",
