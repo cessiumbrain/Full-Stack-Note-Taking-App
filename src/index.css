@@ -26,6 +26,18 @@ body input {
   color: white;
   border-radius: 5px;
 }
+.App .create-account-div .btn {
+  margin-top: 5px;
+  background-color: #fc9f6d;
+  border: 2px solid white;
+  width: 100%;
+  box-sizing: border-box;
+}
+.App .create-account-div .btn:hover {
+  background-color: white;
+  color: #fc9f6d;
+  border: 2px solid #fc9f6d;
+}
 
 .home-div {
   width: 80%;
@@ -68,6 +80,11 @@ body input {
 }
 .login-div i {
   text-align: center;
+  border: none;
+  background-color: transparent;
+}
+.login-div button:hover i {
+  color: #fc9f6d;
 }
 
 .secondary-home-div {

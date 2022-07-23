@@ -28,9 +28,15 @@ const Login = (props)=>{
                 <Button>Create Account</Button>
             </NavLink>
             <label>Login with:</label>
-            <i className="fa-brands fa-google" onClick={()=>props.firebaseGoogleAuth()}></i>
+            <Button onClick={()=>props.firebaseGoogleAuth()}>
+                <i className="fa-brands fa-google" ></i>
+                </Button>
+            
             <label>Report a Bug</label>
-            <i className="fa-solid fa-bug" onClick={()=>{}}></i>
+            <Button onClick={()=>{}}>
+                <i className="fa-solid fa-bug" ></i>
+            </Button>
+            
         </div>
     )
 }

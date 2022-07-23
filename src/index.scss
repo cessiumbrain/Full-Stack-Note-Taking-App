@@ -55,7 +55,11 @@ body{
     }    
 
 
-    @include icon-buttons()
+    @include icon-buttons();
+
+    .create-account-div {
+        @include custom-buttons();
+    }
 }
 
 .home-div {
@@ -80,6 +84,14 @@ body{
     }
     i {
         text-align: center;
+        border: none;
+        background-color: transparent;
+    }
+
+    button:hover {
+        i {
+            color: $primary-color
+        }
     }
 }
 
