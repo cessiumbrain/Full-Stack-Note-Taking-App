@@ -29,7 +29,7 @@ const apiKey = process.env.REACT_APP_API_KEY
 console.log(apiKey)
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4',
+  apiKey: apiKey,
   authDomain: "note-taking-app-b.firebaseapp.com",
   projectId: "note-taking-app-b",
   storageBucket: "note-taking-app-b.appspot.com",
