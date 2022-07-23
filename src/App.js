@@ -79,6 +79,7 @@ class App extends Component {
     }, 
     //if there is a selected notebook- we wait for the state to be update before selecting it again to grab new data
     ()=>{
+      console.log(`get user data docId ${this.state.currentUser.documentId}`)
       if(this.state.selectedNotebook){
         this.selectNotebook(this.state.selectedNotebook.id)
       }
@@ -87,6 +88,7 @@ class App extends Component {
   
   //notebooks
   createNotebook= async (title)=>{
+    console.log(this.state)
     const docRef = await doc(db, 'Users', this.state.currentUser.documentId)
     const currentDoc = await (await getDoc(docRef)).data();
     console.log(currentDoc)
@@ -293,13 +295,14 @@ class App extends Component {
           async ()=>{
             const docRef = await addDoc(collection(db, "Users"), {
               authId: user.uid,
-              email: user.email
+              email: user.email,
+              notebooks:[]
             });
             //set state with document ID for the new user
             this.setState({
               currentUser: {
                 ...this.state.currentUser,
-                userDocId: docRef.id
+                documentId: docRef.id
               }
             }, ()=>console.log(this.state))
           })
@@ -322,7 +325,7 @@ class App extends Component {
             this.setState({
               currentUser: {
                 ...this.state.currentUser,
-                authId: user.uid
+                authId: user.uid,
               }
             },
             //callback to query user's data from firestore

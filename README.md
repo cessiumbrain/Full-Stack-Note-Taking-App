@@ -2,17 +2,22 @@
 This is a full stack app utilizing google's firebase Authentication API and firestore cloud database API.  
 
 ## To-do
+- set document id in state onlogin
 - create temporary user auth
-- sign up with google authentication
-    - after google login get userdata
+    - create id in db with temporary: true
+    - on signout if temporary: true, delete doc
+
 - clean up styling
     - match all buttons
     - delete mock up borders
     - render empty notes div
     - style modal
+- report a bug
 
 
 ## done
+- sign up with google authentication
+    - after google login get userdata
 - create user schema and create new user document in db on signup
 - add get firestore requests
     - get current user and all data
