@@ -27,6 +27,7 @@ import { uid } from 'uid';
 import { handler } from '../netlify/functions/getKey';
 
 const apiKey = process.env.REACT_APP_API_KEY
+console.log(apiKey)
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4',
