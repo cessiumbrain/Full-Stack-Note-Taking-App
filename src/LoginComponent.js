@@ -6,8 +6,8 @@ import { NavLink, useNavigate} from 'react-router-dom'
 
 const Login = (props)=>{
 
-    const [username, setUsername]= useState('test@test.com');
-    const [password, setPassword] = useState('password')
+    const [username, setUsername]= useState('');
+    const [password, setPassword] = useState('')
 
    const navigate = useNavigate();
    useEffect(()=>{
@@ -27,9 +27,10 @@ const Login = (props)=>{
             <NavLink to='/create-account'>
                 <Button>Create Account</Button>
             </NavLink>
-            <Button>Test Drive without An Account</Button>
             <label>Login with:</label>
             <i className="fa-brands fa-google" onClick={()=>props.firebaseGoogleAuth()}></i>
+            <label>Report a Bug</label>
+            <i className="fa-solid fa-bug" onClick={()=>{}}></i>
         </div>
     )
 }

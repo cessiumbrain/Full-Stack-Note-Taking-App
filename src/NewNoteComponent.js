@@ -25,10 +25,10 @@ const NewNote = props =>{
     return(
         <div className="new-note-div">
             <label>Note Title</label>
-            <input ref={noteTitleRef} ></input>
+            <input className="note-input" ref={noteTitleRef} ></input>
 
             <label>Note Content</label>
-            <input ref={noteContentRef}></input>
+            <input className="note-input" ref={noteContentRef}></input>
 
             {
                 props.noteBeingEdited ? ( 
