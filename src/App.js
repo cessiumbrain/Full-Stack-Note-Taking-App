@@ -24,7 +24,6 @@ import MobileNav from './MobileNavComponent';
 import { Nav } from 'reactstrap';
 import { uid } from 'uid';
 
-import { handler } from '../netlify/functions/getKey';
 
 const apiKey = process.env.REACT_APP_API_KEY
 console.log(apiKey)
