@@ -26,10 +26,11 @@ import { uid } from 'uid';
 
 
 const apiKey = process.env.REACT_APP_API_KEY
+console.log(process.env.REACT_APP_API_KEY)
 console.log(apiKey)
 
 const firebaseConfig = {
-  apiKey: apiKey,
+  apiKey: 'AIzaSyBetrkRoCXJmPTUhEy3ZwFow5YxUL2zEm4',
   authDomain: "note-taking-app-b.firebaseapp.com",
   projectId: "note-taking-app-b",
   storageBucket: "note-taking-app-b.appspot.com",
@@ -58,12 +59,24 @@ class App extends Component {
       }
       selectedNotebook: 
         {}
-      
+      errors: {
+        login: 'login error'
+      }
       */
+     errors: {
+      login: null
+     }
 
       
     }
   }
+
+  resetErrors = () =>{
+    this.setState({
+      errors: null
+    })
+  }
+
   getUserData=async ()=>{ 
     const q = await query(usersCollection, where('authId', '==', this.state.currentUser.authId));
     const querySnapshot = await getDocs(q)
@@ -311,6 +324,13 @@ class App extends Component {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          this.setState({
+            errors: {
+              ...this.state.errors,
+              login: errorMessage
+
+            }
+          })
           console.log(errorMessage)
         // ..
       });
@@ -338,6 +358,12 @@ class App extends Component {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          this.setState({
+            errors: {
+              ...this.state.errors,
+              login: 'incorrect username or password'
+            }
+          })
         });
   }
 
@@ -461,6 +487,8 @@ class App extends Component {
                       firebaseAnonAuth={this.firebaseAnonAuth}
                       currentUser={this.state.currentUser}
                       firebaseGoogleAuth={this.firebaseGoogleAuth}
+                      errors={this.state.errors}
+                      resetErrors={this.resetErrors}
                       />}/>
                   <Route 
                     path='/create-account' 

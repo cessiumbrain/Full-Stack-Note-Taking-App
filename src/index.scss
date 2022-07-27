@@ -6,7 +6,7 @@ $first-breakpoint: 768px;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
 @mixin custom-buttons() {
-    .btn {
+    .btn, .btn:active, .btn:focus{
         margin-top: 5px;
         background-color: $primary-color;
         border: 2px solid $secondary-color;
@@ -19,6 +19,8 @@ $first-breakpoint: 768px;
         color: $primary-color;
         border: 2px solid $primary-color
     }
+
+    
 }
 @mixin icon-buttons() {
     i{
@@ -36,6 +38,8 @@ body{
     margin: 0px;
     font-family: $main-font !important;
     
+ 
+
     input {
         box-sizing: border-box;
     }
@@ -50,6 +54,10 @@ body{
     background: linear-gradient(90deg, rgba(239,145,55,1) 0%, rgba(252,213,120,1) 100%);
     margin: 0;
     
+    .error-text {
+        color: red;
+    }
+
     .mobile-nav {
         display: none;
     }    
